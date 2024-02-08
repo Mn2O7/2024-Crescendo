@@ -12,7 +12,7 @@
 #include <networktables/NetworkTable.h>
 #include <networktables/NetworkTableInstance.h>
 #include <units/acceleration.h>
-#include <units/angle.h>
+// #include <units/angle.h>
 #include <units/length.h>
 #include <units/time.h>
 #include <units/velocity.h>
@@ -82,14 +82,14 @@ void Robot::RobotInit() {
   // backRight = new ctre::phoenix6::hardware::TalonFX(3, "Drivebase");
   lastPeriodic = wom::now();
 
-  intake = new Intake(robotmap.intakeSystem.config);
-  wom::BehaviourScheduler::GetInstance()->Register(intake);
-  intake->SetDefaultBehaviour(
-      [this]() { return wom::make<IntakeManualControl>(intake, robotmap.controllers.codriver); });
+  // intake = new Intake(robotmap.intakeSystem.config);
+  // wom::BehaviourScheduler::GetInstance()->Register(intake);
+  // intake->SetDefaultBehaviour(
+  //     [this]() { return wom::make<IntakeManualControl>(intake, robotmap.controllers.codriver); });
 
   // _vision = new Vision("limelight", FMAP("fmap.fmap"));
 
-  _vision = new Vision("limelight", FMAP("fmap.fmap"));
+  //robotmap->vision = new Vision("limelight", FMAP("fmap.fmap"));
 }
 
 void Robot::RobotPeriodic() {
@@ -113,7 +113,7 @@ void Robot::RobotPeriodic() {
   _swerveDrive->OnUpdate(dt);
   alphaArm->OnUpdate(dt);
   shooter->OnStart();
-  intake->OnUpdate(dt);
+  //intake->OnUpdate(dt);
 
   // _swerveDrive->OnUpdate(dt);
 }
@@ -139,7 +139,9 @@ void Robot::TeleopInit() {
   // _swerveDrive->OnStart();
   // sched->InterruptAll();
 
-  _swerveDrive->SetPose(_vision->GetAngleToObject(VisionTargetObjects::kNote).first);
+  //reimplement when vision is reimplemented
+
+  // _swerveDrive->SetPose(_vision->GetAngleToObject(VisionTargetObjects::kNote).first);
 }
 
 void Robot::TeleopPeriodic() {}
@@ -168,9 +170,10 @@ void Robot::SimulationInit() {
     std::cout << x << std::endl;
     std::cout << y << std::endl; */
   // std::cout << _vision->TurnToTarget(1, _swerveDrive).Rotation().Degrees().value() << std::endl;
-  frc::Pose2d pose = _vision->TurnToTarget(2, _swerveDrive);
-  nt::NetworkTableInstance::GetDefault().GetTable("vision")->PutNumber("rot",
-                                                                       pose.Rotation().Degrees().value());
+  //Reimplement when vision is reimplemented
+  // frc::Pose2d pose = _vision->TurnToTarget(2, _swerveDrive);
+  // nt::NetworkTableInstance::GetDefault().GetTable("vision")->PutNumber("rot",
+  //                                                                     pose.Rotation().Degrees().value());
 }
 
 void Robot::SimulationPeriodic() {}

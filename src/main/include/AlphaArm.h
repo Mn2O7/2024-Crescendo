@@ -6,10 +6,17 @@
 #include <frc/DigitalInput.h>
 
 #include "Wombat.h"
+#include "vision/Vision.h"
+#include "utils/PID.h"
+#include <units/angle.h>
+#include <units/voltage.h>
 
 struct AlphaArmConfig {
-  wom::Gearbox alphaArmGearbox;
-  wom::Gearbox wristGearbox;
+  wom::Gearbox alphaArmGearbox; //up+down
+  wom::Gearbox alphaArmGearbox2;
+  wom::PIDConfig<units::radians, units::volts> alphaArmPID;
+  std::string path;
+  // Vision *vision;
 };
 
 enum class AlphaArmState {
@@ -17,8 +24,7 @@ enum class AlphaArmState {
   kIntakeAngle,
   kAmpAngle,
   kSpeakerAngle,
-  kForwardWrist,
-  kReverseWrist,
+  kHoldAngle,
   kRaw
 };
 
@@ -28,17 +34,16 @@ class AlphaArm : public ::behaviour::HasBehaviour {
 
   void OnUpdate(units::second_t dt);
   void SetArmRaw(units::volt_t voltage);
-  void setWristRaw(units::volt_t voltage);
   void SetState(AlphaArmState state);
   AlphaArmConfig GetConfig();
-  // void SetRaw(units::volt_t voltage);
 
  private:
+  units::radian_t CalcTargetAngle();
+
   AlphaArmConfig _config;
   AlphaArmState _state = AlphaArmState::kIdle;
+  wom::utils::PIDController<units::radian, units::volt> _alphaArmPID;
   units::volt_t _setAlphaArmVoltage = 0_V;
-  units::volt_t _setWristVoltage = 0_V;
-
   units::volt_t _rawArmVoltage = 0_V;
-  units::volt_t _rawWristVoltage = 0_V;
+  units::radian_t _angle;
 };

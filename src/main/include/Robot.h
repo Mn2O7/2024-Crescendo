@@ -3,7 +3,7 @@
 // of the MIT License at the root of this project
 
 #pragma once
-#include <frc/Encoder.h>
+// #include <frc/Encoder.h>
 #include <frc/TimedRobot.h>
 #include <frc/Timer.h>
 #include <frc/event/EventLoop.h>
@@ -46,7 +46,7 @@ class Robot : public frc::TimedRobot {
   frc::EventLoop loop;
   Shooter* shooter;
 
-  Intake* intake;
+  // Intake* intake;
   frc::SendableChooser<std::string> m_chooser;
 
   frc::Field2d m_field;
@@ -63,6 +63,4 @@ class Robot : public frc::TimedRobot {
   // ctre::phoenix6::hardware::TalonFX *frontRight;
   // ctre::phoenix6::hardware::TalonFX *backLeft;
   // ctre::phoenix6::hardware::TalonFX *backRight;
-
-  Vision* _vision;
 };

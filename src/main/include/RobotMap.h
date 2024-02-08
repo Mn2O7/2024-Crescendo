@@ -8,8 +8,9 @@
 #include <frc/DoubleSolenoid.h>
 #include <frc/XboxController.h>
 #include <frc/system/plant/DCMotor.h>
-#include <units/angle.h>
 #include <units/length.h>
+#include <units/angle.h>
+#include <units/voltage.h>
 
 #include <memory>
 #include <string>
@@ -22,26 +23,29 @@
 #include "Intake.h"
 #include "Shooter.h"
 #include "Wombat.h"
+#include "vision/Vision.h"
 
 struct RobotMap {
+  //Vision *vision;
+
   struct Controllers {
     frc::XboxController driver = frc::XboxController(0);
     frc::XboxController codriver = frc::XboxController(1);
   };
   Controllers controllers;
 
-  struct IntakeSystem {
-    rev::CANSparkMax intakeMotor{2, rev::CANSparkMax::MotorType::kBrushed};
-    // wom::CANSparkMaxEncoder intakeEncoder{&intakeMotor, 0.1_m};
-    frc::DigitalInput intakeSensor{4};
-    // frc::DigitalInput magSensor{0};
-    // frc::DigitalInput shooterSensor{0};
+  // struct IntakeSystem {
+  //   rev::CANSparkMax intakeMotor{2, rev::CANSparkMax::MotorType::kBrushed};
+  //   // wom::CANSparkMaxEncoder intakeEncoder{&intakeMotor, 0.1_m};
+  //   frc::DigitalInput intakeSensor{4};
+  //   // frc::DigitalInput magSensor{0};
+  //   // frc::DigitalInput shooterSensor{0};
 
-    wom::Gearbox IntakeGearbox{&intakeMotor, nullptr, frc::DCMotor::CIM(1)};
+  //   wom::Gearbox IntakeGearbox{&intakeMotor, nullptr, frc::DCMotor::CIM(1)};
 
-    IntakeConfig config{IntakeGearbox, &intakeSensor /*, &magSensor, &shooterSensor*/};
-  };
-  IntakeSystem intakeSystem;
+  //   IntakeConfig config{IntakeGearbox, &intakeSensor , /*&magSensor, &shooterSensor*/};
+  // };
+  // IntakeSystem intakeSystem;
 
   struct Shooter {
     rev::CANSparkMax shooterMotor{11, rev::CANSparkMax::MotorType::kBrushless};  // Port 11
@@ -170,12 +174,25 @@ struct RobotMap {
 
   struct AlphaArmSystem {
     rev::CANSparkMax alphaArmMotor{12, rev::CANSparkMax::MotorType::kBrushless};
-    rev::CANSparkMax wristMotor{15, rev::CANSparkMax::MotorType::kBrushless};
+    rev::CANSparkMax alphaArmMotor2{13, rev::CANSparkMax::MotorType::kBrushless};
 
-    wom::Gearbox alphaArmGearbox{&alphaArmMotor, nullptr, frc::DCMotor::NEO(1)};
-    wom::Gearbox wristGearbox{&wristMotor, nullptr, frc::DCMotor::NEO(1)};
+    wom::DutyCycleEncoder* alphaArmEncoder = new wom::DutyCycleEncoder(99, 0.1_m);
 
-    AlphaArmConfig config{alphaArmGearbox, wristGearbox};
+    wom::Gearbox alphaArmGearbox{&alphaArmMotor, alphaArmEncoder, frc::DCMotor::NEO(1)};
+    wom::Gearbox alphaArmGearbox2{&alphaArmMotor2, nullptr, frc::DCMotor::NEO(1)};
+
+    wom::PIDConfig<units::radian, units::volts> alphaArmPIDConfig{
+       "/alphaArm/pid/config",
+       0.1_V / 30_deg,
+       0.1_V / (1_deg * 1_s),
+       0.1_V / (1_deg / 1_s),
+       5_deg, 
+       2_deg / 1_s,
+       5_deg};
+
+    AlphaArmConfig config{alphaArmGearbox, alphaArmGearbox2, alphaArmPIDConfig, "/alphaArm"
+    //, &vision
+    };
   };
   AlphaArmSystem alphaArmSystem;
 };
