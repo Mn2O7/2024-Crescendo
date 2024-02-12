@@ -17,13 +17,13 @@
 
 #include "AlphaArm.h"
 #include "AlphaArmBehaviour.h"
-#include "Intake.h"
-#include "IntakeBehaviour.h"
+// #include "Intake.h"
+// #include "IntakeBehaviour.h"
 #include "RobotMap.h"
-#include "Shooter.h"
-#include "ShooterBehaviour.h"
+// #include "Shooter.h"
+// #include "ShooterBehaviour.h"
 #include "Wombat.h"
-#include "vision/Vision.h"
+// #include "vision/Vision.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -44,7 +44,7 @@ class Robot : public frc::TimedRobot {
   RobotMap robotmap;
   wom::BehaviourScheduler* sched;
   frc::EventLoop loop;
-  Shooter* shooter;
+  // Shooter* shooter;
 
   // Intake* intake;
   frc::SendableChooser<std::string> m_chooser;
@@ -55,9 +55,11 @@ class Robot : public frc::TimedRobot {
 
   frc::SendableChooser<std::string> m_path_chooser;
 
-  wom::SwerveDrive* _swerveDrive;
+  // wom::SwerveDrive* _swerveDrive;
 
   AlphaArm* alphaArm;
+
+  //rev::CANSparkMax testingmotor{2, rev::CANSparkMax::MotorType::kBrushless};
 
   // ctre::phoenix6::hardware::TalonFX *frontLeft;
   // ctre::phoenix6::hardware::TalonFX *frontRight;

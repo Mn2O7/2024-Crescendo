@@ -45,5 +45,6 @@ class AlphaArm : public ::behaviour::HasBehaviour {
   wom::utils::PIDController<units::radian, units::volt> _alphaArmPID;
   units::volt_t _setAlphaArmVoltage = 0_V;
   units::volt_t _rawArmVoltage = 0_V;
+  units::volt_t _testRawVoltage = 3_V;
   units::radian_t _angle;
 };
