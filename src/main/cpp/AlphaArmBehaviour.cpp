@@ -9,19 +9,17 @@
 AlphaArmManualControl::AlphaArmManualControl(AlphaArm* alphaArm, frc::XboxController* codriver)
     : _alphaArm(alphaArm), _codriver(codriver) {
   Controls(alphaArm);
+  _alphaArm->SetState(AlphaArmState::kRaw);
 }
 
 void AlphaArmManualControl::OnTick(units::second_t dt) {
-  // if (_codriver->GetXButtonPressed()) {
-  //   if (_rawControl == true) {
-  //     _rawControl = false;
-  //   } else {
-  //     _rawControl = true;
-  //   }
-  // }
+  if (_rawControl) {
+    if (std::abs(_codriver->GetLeftY()) > 0.3) {
+      _alphaArm->SetArmRaw(3_V);
+    } else {
+      _alphaArm->SetArmRaw(0_V);
+    }
+  }
 
-  // if (_rawControl) {
-    _alphaArm->SetState(AlphaArmState::kRaw);
-    _alphaArm->SetArmRaw(_codriver->GetRightY() * 6_V);
-  // } // else?
+  std::cout << std::to_string(_codriver->GetLeftY()) << std::endl;
 }

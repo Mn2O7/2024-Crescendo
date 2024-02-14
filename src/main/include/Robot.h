@@ -57,10 +57,10 @@ class Robot : public frc::TimedRobot {
 
   // wom::SwerveDrive* _swerveDrive;
 
-  // AlphaArm* alphaArm;
+  AlphaArm* alphaArm;
 
-  rev::CANSparkMax testMotorUp{21, rev::CANSparkMax::MotorType::kBrushless};
-  rev::CANSparkMax testMotorDown{26, rev::CANSparkMax::MotorType::kBrushless};
+  // rev::CANSparkMax testMotorUp{21, rev::CANSparkMax::MotorType::kBrushless};
+  // rev::CANSparkMax testMotorDown{26, rev::CANSparkMax::MotorType::kBrushless};
   // frc::XboxController testdriver = frc::XboxController(1);
 
   //rev::CANSparkMax testingmotor{2, rev::CANSparkMax::MotorType::kBrushless};
