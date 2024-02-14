@@ -62,10 +62,10 @@ void Robot::RobotInit() {
   // m_driveSim = new wom::TempSimSwerveDrive(&simulation_timer, &m_field);
   // m_driveSim = wom::TempSimSwerveDrive();
 
-  alphaArm = new AlphaArm(robotmap.alphaArmSystem.config);
-  wom::BehaviourScheduler::GetInstance()->Register(alphaArm);
-  alphaArm->SetDefaultBehaviour(
-      [this]() { return wom::make<AlphaArmManualControl>(alphaArm, &robotmap.controllers.codriver); });
+  // alphaArm = new AlphaArm(robotmap.alphaArmSystem.config);
+  // wom::BehaviourScheduler::GetInstance()->Register(alphaArm);
+  // alphaArm->SetDefaultBehaviour(
+  //     [this]() { return wom::make<AlphaArmManualControl>(alphaArm, &robotmap.controllers.codriver); });
 
   // robotmap.swerveBase.moduleConfigs[0].turnMotor.encoder->SetEncoderOffset(0_rad);
   // robotmap.swerveBase.moduleConfigs[1].turnMotor.encoder->SetEncoderOffset(0_rad);
@@ -112,7 +112,7 @@ void Robot::RobotPeriodic() {
   //     .SetDouble(robotmap.swerveBase.moduleConfigs[3].turnMotor.encoder->GetEncoderPosition().value());
 
   // _swerveDrive->OnUpdate(dt);
-  alphaArm->OnUpdate(dt);
+  // alphaArm->OnUpdate(dt);
   // shooter->OnStart();
   //intake->OnUpdate(dt);
 
@@ -147,7 +147,17 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-  
+  if(std::abs(robotmap.controllers.codriver.GetLeftY()) > 0.1){
+    testMotorDown.Set(robotmap.controllers.codriver.GetLeftY());
+    testMotorUp.Set(robotmap.controllers.codriver.GetLeftY());
+  } else{
+    testMotorDown.Set(0);
+    testMotorUp.Set(0);
+  }
+
+  // if(testdriver.GetAButton()){
+  //   testMotorUp.Set(0.1);
+  // }
 }
 
 void Robot::DisabledInit() {}

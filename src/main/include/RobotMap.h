@@ -172,27 +172,27 @@ struct RobotMap {
 //   };
 //   SwerveTable swerveTable;
  
-  struct AlphaArmSystem {
-    rev::CANSparkMax alphaArmMotor{29, rev::CANSparkMax::MotorType::kBrushless};
-    rev::CANSparkMax alphaArmMotor2{3, rev::CANSparkMax::MotorType::kBrushless};
+  // struct AlphaArmSystem {
+  //   rev::CANSparkMax alphaArmMotor{21, rev::CANSparkMax::MotorType::kBrushless};
+  //   rev::CANSparkMax alphaArmMotor2{26, rev::CANSparkMax::MotorType::kBrushless};
 
-    wom::DutyCycleEncoder* alphaArmEncoder = new wom::DutyCycleEncoder(3, 0.1_m);
+  //   wom::DutyCycleEncoder* alphaArmEncoder = new wom::DutyCycleEncoder(3, 0.1_m);
 
-    wom::Gearbox alphaArmGearbox{&alphaArmMotor, alphaArmEncoder, frc::DCMotor::NEO(1)};
-    wom::Gearbox alphaArmGearbox2{&alphaArmMotor2, alphaArmEncoder, frc::DCMotor::NEO(1)};
+  //   wom::Gearbox alphaArmGearbox{&alphaArmMotor, nullptr, frc::DCMotor::NEO(1)};
+  //   wom::Gearbox alphaArmGearbox2{&alphaArmMotor2, nullptr, frc::DCMotor::NEO(1)};
 
-    wom::PIDConfig<units::radian, units::volts> alphaArmPIDConfig{
-       "/alphaArm/pid/config",
-       0.1_V / 30_deg,
-       0.1_V / (1_deg * 1_s),
-       0.1_V / (1_deg / 1_s),
-       5_deg, 
-       2_deg / 1_s,
-       5_deg};
+  //   wom::PIDConfig<units::radian, units::volts> alphaArmPIDConfig {
+  //      "/alphaArm/pid/config",
+  //      0.1_V / 30_deg,
+  //      0.0_V / (1_deg * 1_s),
+  //      0.0_V / (1_deg / 1_s),
+  //      5_deg, 
+  //      2_deg / 1_s,
+  //      5_deg};
 
-    AlphaArmConfig config{alphaArmGearbox, alphaArmGearbox2, alphaArmPIDConfig, "/alphaArm"
-    //, &vision
-    };
-  };
-  AlphaArmSystem alphaArmSystem;
+  //   AlphaArmConfig config{alphaArmGearbox, alphaArmGearbox2, alphaArmPIDConfig, "/alphaArm"
+  //   //, &vision
+  //   };
+  // };
+  // AlphaArmSystem alphaArmSystem;
 };

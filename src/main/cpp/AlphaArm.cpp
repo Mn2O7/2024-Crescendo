@@ -47,7 +47,7 @@ void AlphaArm::OnUpdate(units::second_t dt) {
   _config.alphaArmGearbox.motorController->SetVoltage(_setAlphaArmVoltage);
   _config.alphaArmGearbox2.motorController->SetVoltage(_setAlphaArmVoltage);
   std::cout << "Encoder Value: " << _config.alphaArmGearbox.encoder->GetEncoderPosition().value() << std::endl;
-  std::cout << "Voltage:" << _setAlphaArmVoltage.value() << std::endl;
+  std::cout << "Voltage: " << _setAlphaArmVoltage.value() << std::endl;
 }
 
 void AlphaArm::SetState(AlphaArmState state) {
